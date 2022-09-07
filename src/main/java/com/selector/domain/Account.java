@@ -38,6 +38,6 @@ public class Account {
 
     private boolean commentedMyQuestionsByWeb;
 
-    private String test;
+    private String test2;
 
 }
