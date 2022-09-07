@@ -38,5 +38,4 @@ public class Account {
 
     private boolean commentedMyQuestionsByWeb;
 
-
 }
