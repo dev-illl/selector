@@ -1,4 +1,4 @@
-package com.selector.account;
+package com.selector.config.account;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,6 +9,7 @@ public class AccountController {
 
     @GetMapping("/sign-up")
     public String signUpForm(Model model){
+        model.addAttribute("signUpForm", new SignUpForm());
         return "account/sign-up";
     }
 }
