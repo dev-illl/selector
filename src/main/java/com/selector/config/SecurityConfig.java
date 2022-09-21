@@ -17,19 +17,19 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http.authorizeRequests()
-                .antMatchers("/", "/login", "/sign-up", "/check-email", "/check-email-token",
+                .antMatchers("/", "/index", "/login", "/sign-up", "/check-email", "/check-email-token",
                         "/email-login", "/check-email-login", "/login-link").permitAll()
                 .mvcMatchers(HttpMethod.GET, "/profile/*").permitAll()
                 .anyRequest().authenticated()
                 .and().formLogin()
                 //.loginPage("/login")
-                .defaultSuccessUrl("/")
+                //.defaultSuccessUrl("/")
                 .usernameParameter("email")
                 .failureUrl("/login/fail")
-                .permitAll()
-                .and()
-                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/").permitAll();
+                .permitAll();
+                //.and()
+                //.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                //.logoutSuccessUrl("/").permitAll();
         http.headers().frameOptions().sameOrigin();
         return http.build();
     }

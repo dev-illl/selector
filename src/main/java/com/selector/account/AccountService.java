@@ -41,5 +41,4 @@ public class AccountService {
                 "&email=" + newAccount.getEmail());
         javaMailSender.send(mailMessage);
     }
-
 }
