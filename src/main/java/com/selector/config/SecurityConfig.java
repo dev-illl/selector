@@ -7,6 +7,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -17,25 +18,30 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http.authorizeRequests()
-                .antMatchers("/", "/index", "/login", "/sign-up", "/check-email", "/check-email-token",
+                .mvcMatchers("/", "/login", "/sign-up", "/check-email", "/check-email-token",
                         "/email-login", "/check-email-login", "/login-link").permitAll()
                 .mvcMatchers(HttpMethod.GET, "/profile/*").permitAll()
-                .anyRequest().authenticated()
+                .anyRequest().authenticated();
+                /*.antMatchers("/", "/index", "/login", "/sign-up", "/check-email", "/check-email-token",
+                        "/email-login", "/check-email-login", "/login-link").permitAll()
+                .mvcMatchers(HttpMethod.GET, "/profile/*").permitAll()
+                .anyRequest().authenticated();
                 .and().formLogin()
-                //.loginPage("/login")
-                //.defaultSuccessUrl("/")
+                .loginPage("/login")
+                .defaultSuccessUrl("/")
                 .usernameParameter("email")
                 .failureUrl("/login/fail")
-                .permitAll();
-                //.and()
-                //.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                //.logoutSuccessUrl("/").permitAll();
+                .permitAll()
+                .and()
+                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/").permitAll();*/
         http.headers().frameOptions().sameOrigin();
         return http.build();
     }
-
-    public void filterChain(WebSecurity web) throws Exception{
-        web.ignoring()
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring()
+                .mvcMatchers("/node_modules/**")
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
     }
 }
