@@ -1,0 +1,21 @@
+package com.selector.account;
+
+import com.selector.domain.Account;
+import lombok.Getter;
+import net.bytebuddy.build.Plugin;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+
+import java.util.List;
+
+@Getter
+public class UserAccount extends User {
+
+    private Account account;
+
+    public UserAccount(Account account) {
+        super(account.getNickName(), account.getPassword(), List.of(new SimpleGrantedAuthority("ROLE_USER")));
+        this.account = account;
+    }
+}

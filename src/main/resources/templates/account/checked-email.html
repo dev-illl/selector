@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replac="fragments.html :: head"></head>
+<head th:replace="fragments.html :: head"></head>
 
 <body class="bg-light">
 <div th:replace="fragments.html :: main-nav"></div>
@@ -8,7 +8,7 @@
 <div class="py-5 text-center" th:if="${error}">
     <p class="lead">Selector Email 확인</p>
     <div class="alert alert-danger" role="alert">
-        이메일 확인 링크각 정확하지 않습니다.
+        이메일 확인 링크가 정확하지 않습니다.
     </div>
 </div>
 <div class="py-5 text-center" th:if="${error == null}">
