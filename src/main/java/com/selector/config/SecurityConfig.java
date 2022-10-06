@@ -21,27 +21,27 @@ public class SecurityConfig {
                 .mvcMatchers("/", "/login", "/sign-up", "/check-email-token",
                         "/email-login", "/check-email-login", "/login-link").permitAll()
                 .mvcMatchers(HttpMethod.GET, "/profile/*").permitAll()
-                .anyRequest().authenticated();
+                .anyRequest().authenticated()
                 /*.antMatchers("/", "/index", "/login", "/sign-up", "/check-email", "/check-email-token",
                         "/email-login", "/check-email-login", "/login-link").permitAll()
                 .mvcMatchers(HttpMethod.GET, "/profile/*").permitAll()
-                .anyRequest().authenticated();
+                .anyRequest().authenticated();*/
                 .and().formLogin()
-                .loginPage("/login")
-                .defaultSuccessUrl("/")
-                .usernameParameter("email")
-                .failureUrl("/login/fail")
-                .permitAll()
+                .loginPage("/login").permitAll()
+                //.defaultSuccessUrl("/")
+                //.usernameParameter("email")
+                //.failureUrl("/login/fail")
+                //.permitAll()
                 .and()
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/").permitAll();*/
+                .logoutSuccessUrl("/").permitAll();
         http.headers().frameOptions().sameOrigin();
         return http.build();
     }
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring()
-                .mvcMatchers("/node_modules/**")
+                .mvcMatchers("/node_modules/**", "/resources/**", "/favicon.ico", "/error")
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
     }
 }
