@@ -29,6 +29,7 @@ public class AccountService implements UserDetailsService {
 
     @Transactional
     public Account processNewAccount(SignUpForm signUpForm) {
+        confirmPassword(signUpForm);
         Account newAccount = saveNewAccount(signUpForm);
         newAccount.generateEmailCheckToken();
         sendSignUpConfirmEmail(newAccount);
@@ -39,11 +40,18 @@ public class AccountService implements UserDetailsService {
         Account account = Account.builder()
                 .email(signUpForm.getEmail())
                 .nickName(signUpForm.getNickName())
-                .password(passwordEncoder.encode(signUpForm.getPassword())) // TODO encoding 해야함
+                .password(passwordEncoder.encode(signUpForm.getPassword()))
                 .updatedMyQuestionsByWeb(true)
                 .commentedMyQuestionsByWeb(true)
                 .build();
         return accountRepository.save(account);
+    }
+
+    public void confirmPassword(SignUpForm signUpForm){
+        System.out.println("1차 비밀번호 : " + signUpForm.getPassword() + " 2차 비밀번호 : " + signUpForm.getConfirmPassword());
+        if(!signUpForm.getPassword().equals(signUpForm.getConfirmPassword())){
+            throw new IllegalStateException("1차 비밀번호와 2차 비밀번호가 일치하지 않습니다.");
+        }
     }
 
     public void sendSignUpConfirmEmail(Account newAccount) {

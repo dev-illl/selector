@@ -37,11 +37,17 @@ public class AccountController {
     }
 
     @PostMapping("/sign-up")
-    public String signUpSubmit(@Valid SignUpForm signUpForm, Errors errors) {
+    public String signUpSubmit(@Valid SignUpForm signUpForm, Errors errors, Model model) {
         if (errors.hasErrors()) {
             return "account/sign-up";
         }
-        Account account = accountService.processNewAccount(signUpForm);
+        Account account;
+        try {
+            account = accountService.processNewAccount(signUpForm);
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            return "account/sign-up";
+        }
         accountService.login(account);
         return "redirect:/";
     }
