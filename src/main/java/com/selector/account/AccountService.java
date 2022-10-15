@@ -19,6 +19,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class AccountService implements UserDetailsService {
 
     private final AccountRepository accountRepository;
@@ -27,7 +28,6 @@ public class AccountService implements UserDetailsService {
 
     private final PasswordEncoder passwordEncoder;
 
-    @Transactional
     public Account processNewAccount(SignUpForm signUpForm) {
         confirmPassword(signUpForm);
         Account newAccount = saveNewAccount(signUpForm);
@@ -72,6 +72,7 @@ public class AccountService implements UserDetailsService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String emailOrNickName) throws UsernameNotFoundException {
         Account account = accountRepository.findByEmail(emailOrNickName);
         if(account == null){
@@ -83,5 +84,10 @@ public class AccountService implements UserDetailsService {
         }
 
         return new UserAccount(account);
+    }
+
+    public void completeSignUp(Account account) {
+        account.completeSignUp();
+        login(account);
     }
 }
