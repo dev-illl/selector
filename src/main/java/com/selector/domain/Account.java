@@ -33,6 +33,14 @@ public class Account {
     @Lob @Basic(fetch = FetchType.EAGER)
     private String profileImage;
 
+    private String introduce;
+
+    private String occupation;
+
+    private String interest;
+
+    private String instagramUrl;
+
     private boolean updatedMyQuestionsByEmail;
 
     private boolean updatedMyQuestionsByWeb;
