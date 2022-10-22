@@ -97,7 +97,7 @@ public class AccountService implements UserDetailsService {
         account.setInstagramUrl(profile.getInstagramUrl());
         account.setOccupation(profile.getOccupation());
         account.setInterest(profile.getInterest());
-        // TODO 프로필 이미지
+        account.setProfileImage(profile.getProfileImage());
         accountRepository.save(account);
         // TODO 문제가 하나 더 남았습니다.
     }
