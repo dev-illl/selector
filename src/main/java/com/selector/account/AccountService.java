@@ -4,6 +4,7 @@ import com.selector.domain.Account;
 import com.selector.settings.Notifications;
 import com.selector.settings.Profile;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,6 +30,8 @@ public class AccountService implements UserDetailsService {
     private final JavaMailSender javaMailSender;
 
     private final PasswordEncoder passwordEncoder;
+
+    private final ModelMapper modelMapper;
 
     public Account processNewAccount(SignUpForm signUpForm) {
         confirmPassword(signUpForm);
@@ -94,11 +97,7 @@ public class AccountService implements UserDetailsService {
     }
 
     public void updateProfile(Account account, Profile profile) {
-        account.setIntroduce(profile.getIntroduce());
-        account.setInstagramUrl(profile.getInstagramUrl());
-        account.setOccupation(profile.getOccupation());
-        account.setInterest(profile.getInterest());
-        account.setProfileImage(profile.getProfileImage());
+        modelMapper.map(profile, account);
         accountRepository.save(account);
     }
 
@@ -109,11 +108,7 @@ public class AccountService implements UserDetailsService {
     }
 
     public void updateNotifications(Account account, Notifications notifications){
-        account.setTopicOfInterestByEmail(notifications.isTopicOfInterestByEmail());
-        account.setTopicOfInterestByWeb(notifications.isTopicOfInterestByWeb());
-        account.setUpdatedMyQuestionsByEmail(notifications.isUpdatedMyQuestionsByEmail());
-        account.setUpdatedMyQuestionsByWeb(notifications.isUpdatedMyQuestionsByWeb());
-        account.setCommentedMyQuestionsByEmail(notifications.isCommentedMyQuestionsByEmail());
-        account.setCommentedMyQuestionsByWeb(notifications.isCommentedMyQuestionsByWeb());
+        modelMapper.map(notifications, account);
+        accountRepository.save(account);
     }
 }

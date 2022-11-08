@@ -23,11 +23,4 @@ public class Profile {
 
     private String profileImage;
 
-    public Profile(Account account) {
-        this.introduce = account.getIntroduce();
-        this.occupation = account.getOccupation();
-        this.interest = account.getInterest();
-        this.instagramUrl = account.getInstagramUrl();
-        this.profileImage = account.getProfileImage();
-    }
 }
