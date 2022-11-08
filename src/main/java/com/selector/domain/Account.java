@@ -41,13 +41,17 @@ public class Account {
 
     private String instagramUrl;
 
+    private boolean topicOfInterestByEmail;
+
+    private boolean topicOfInterestByWeb = true;
+
     private boolean updatedMyQuestionsByEmail;
 
-    private boolean updatedMyQuestionsByWeb;
+    private boolean updatedMyQuestionsByWeb = true;
 
     private boolean commentedMyQuestionsByEmail;
 
-    private boolean commentedMyQuestionsByWeb;
+    private boolean commentedMyQuestionsByWeb = true;
 
     public void generateEmailCheckToken() {
 

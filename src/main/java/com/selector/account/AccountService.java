@@ -1,6 +1,7 @@
 package com.selector.account;
 
 import com.selector.domain.Account;
+import com.selector.settings.Notifications;
 import com.selector.settings.Profile;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
@@ -105,5 +106,14 @@ public class AccountService implements UserDetailsService {
     public void updatePassword(Account account, String newPassword) {
         account.setPassword(passwordEncoder.encode(newPassword));
         accountRepository.save(account);
+    }
+
+    public void updateNotifications(Account account, Notifications notifications){
+        account.setTopicOfInterestByEmail(notifications.isTopicOfInterestByEmail());
+        account.setTopicOfInterestByWeb(notifications.isTopicOfInterestByWeb());
+        account.setUpdatedMyQuestionsByEmail(notifications.isUpdatedMyQuestionsByEmail());
+        account.setUpdatedMyQuestionsByWeb(notifications.isUpdatedMyQuestionsByWeb());
+        account.setCommentedMyQuestionsByEmail(notifications.isCommentedMyQuestionsByEmail());
+        account.setCommentedMyQuestionsByWeb(notifications.isCommentedMyQuestionsByWeb());
     }
 }
