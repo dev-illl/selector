@@ -121,4 +121,45 @@ class SettingsControllerTest {
                 .andExpect(model().attributeExists("account"));
     }
 
+    @WithAccount("sangyeong")
+    @DisplayName("닉네임 수정 폼")
+    @Test
+    void updateAccountForm() throws Exception{
+        mockMvc.perform(get(SettingsController.SETTINGS_ACCOUNT_URL))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("account"))
+                .andExpect(model().attributeExists("nickNameForm"));
+    }
+
+
+    @WithAccount("sangyeong")
+    @Test
+    @DisplayName("닉네임 수정 TEST - 입력값 정상")
+    void updateAccount_success() throws Exception{
+        String newNickName = "test";
+        mockMvc.perform(post(SettingsController.SETTINGS_ACCOUNT_URL)
+                .param("nickName", newNickName)
+                .with(csrf()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl(SettingsController.SETTINGS_ACCOUNT_VIEW_NAME))
+                .andExpect(flash().attributeExists("message"));
+
+        assertNotNull(accountRepository.findByNickName("test"));
+    }
+
+    @WithAccount("sangyeong")
+    @DisplayName("닉네임 수정 TEST - 입력값 에러")
+    @Test
+    void updateAccount_fail() throws Exception{
+        String newNickName = "¯\\_(ツ)_/¯";
+        mockMvc.perform(post(SettingsController.SETTINGS_ACCOUNT_URL)
+                .param("nickName", newNickName)
+                .with(csrf()))
+                .andExpect(status().isOk())
+                .andExpect(view().name(SettingsController.SETTINGS_ACCOUNT_VIEW_NAME))
+                .andExpect(model().hasErrors())
+                .andExpect(model().attributeExists("account"))
+                .andExpect(model().attributeExists("nickNameForm"));
+    }
+
 }

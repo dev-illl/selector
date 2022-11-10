@@ -1,6 +1,7 @@
-package com.selector.settings;
+package com.selector.settings.validator;
 
 
+import com.selector.settings.form.PasswordForm;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 

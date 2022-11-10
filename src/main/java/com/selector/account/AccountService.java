@@ -111,4 +111,10 @@ public class AccountService implements UserDetailsService {
         modelMapper.map(notifications, account);
         accountRepository.save(account);
     }
+
+    public void updateNickName(Account account, String nickName){
+        account.setNickName(nickName);
+        accountRepository.save(account);
+        login(account);
+    }
 }
