@@ -1,6 +1,7 @@
 package com.selector.account;
 
 import com.selector.domain.Account;
+import com.selector.domain.Tag;
 import com.selector.settings.Notifications;
 import com.selector.settings.Profile;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -125,5 +127,10 @@ public class AccountService implements UserDetailsService {
         mailMessage.setSubject("Selector 이메일 로그인 링크 메일입니다.");
         mailMessage.setText("login-by-email?token=" + account.getEmailCheckToken() + "&email=" + account.getEmail());
         javaMailSender.send(mailMessage);
+    }
+
+    public void addTag(Account account, Tag tag){
+        Optional<Account> byId = accountRepository.findById(account.getId());
+        byId.ifPresent(a -> a.getTags().add(tag));
     }
 }
